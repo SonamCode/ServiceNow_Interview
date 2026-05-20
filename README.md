@@ -1,6 +1,6 @@
 # ServiceNow Interview Master Guide
 
-> 🚀 **[Open the Interactive Study Guide](index.html)** 
+> 🚀 <a href="https://sonamcode.github.io/ServiceNow_Interview/">**[Open the Interactive Study Guide]**</a>
 > *A unified UI with a sidebar topic navigator and dynamic main body for all questions and answers.*
 
 # ServiceNow Interview Experience & Questions
