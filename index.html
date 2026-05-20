@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ServiceNow Interview Master Guide</title>
+    <style>
+        :root {
+            --bg-color: #fefce8;
+            --sidebar-bg: #fef08a;
+            --text-color: #000000;
+            --text-muted: #374151;
+            --accent: #000000;
+            --accent-hover: #333333;
+            --border: #facc15;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .sidebar {
+            width: 350px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--accent);
+            position: sticky;
+            top: 0;
+            background-color: var(--sidebar-bg);
+            z-index: 10;
+        }
+        .topic-group {
+            padding: 10px 0;
+        }
+        .topic-title {
+            padding: 10px 20px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+        .q-link {
+            display: block;
+            padding: 12px 20px 12px 30px;
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            border-left: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .q-link:hover {
+            background-color: rgba(56, 189, 248, 0.1);
+            border-left-color: var(--accent);
+        }
+        .q-link.active {
+            background-color: rgba(56, 189, 248, 0.2);
+            border-left-color: var(--accent);
+            font-weight: 500;
+        }
+        .main-body {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .main-content-wrapper {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        .placeholder {
+            display: flex;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            text-align: center;
+            margin-top: 20vh;
+        }
+        .question-display {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #000000;
+            line-height: 1.3;
+        }
+        .answer-display {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #000000;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        pre {
+            background: #fdf6e3;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-top: 15px;
+            border: 1px solid var(--border);
+        }
+        code {
+            font-family: 'Fira Code', monospace;
+            color: #b45309;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+            ServiceNow Study Guide
+        </div>
+        <div id="nav-container"></div>
+    </div>
+
+    <div class="main-body">
+        <div class="main-content-wrapper" id="content-container">
+            <div class="placeholder">Select a question from the sidebar on the left to view its detailed technical answer.</div>
+        </div>
+    </div>
+
+    <script>
+        const data = [
+            {
+                topic: "1. Client Scripts & UI Policies",
+                questions: [
+                    { q: "Have you written Client Script? There is a checkbox named Global?", a: "Yes. The Global checkbox indicates that the script will run on all form views. If unchecked, you must specify a single 'View' (like Default, Self Service)." },
+                    { q: "What is All Views?", a: "This directly relates to the 'Global' checkbox. When 'Global' is checked, it means 'All Views'. The script executes regardless of the view selected." },
+                    { q: "What all functions/methods can you use in onChange Client Script?", a: "<code>g_form</code> API (getValue, setValue, setMandatory, addInfoMessage), <code>g_user</code> API (to check roles), and <code>GlideAjax</code> for asynchronous server calls." },
+                    { q: "OnChange method 5 parameters?", a: "control, oldValue, newValue, isLoading, and isTemplate." },
+                    { q: "If isTemplate = true, what will happen?", a: "isTemplate is true when a field value changes because a user applied a Template. We use <code>if (isLoading || isTemplate) { return; }</code> to prevent heavy scripts from running during mass template changes." },
+                    { q: "UI Policy vs Data Policy? Can we write scripts in them?", a: "<b>UI Policies</b> are client-side (visible, read-only, mandatory on forms) and CAN have scripts (Execute if True/False).<br><br><b>Data Policies</b> are server-side (enforce mandatory/read-only at DB level for imports/lists) and CANNOT have scripts." },
+                    { q: "When does onChange and onLoad run?", a: "<b>onLoad</b> runs when a form is first rendered. <b>onChange</b> runs immediately when a user modifies a field and moves focus away." }
+                ]
+            },
+            {
+                topic: "2. Client-Server Communication",
+                questions: [
+                    { q: "How can we send data from server side to client side?", a: "GlideAjax (best practice, asynchronous), g_scratchpad via Display Business Rules (on load), and getReference() with a callback (less efficient)." },
+                    { q: "What is g_scratchpad?", a: "An object used to pass data from the server (using a Display Business Rule) to the client (onLoad Client Scripts) instantly when a form loads." },
+                    { q: "What is GlideAjax? Syntax?", a: "An API used in Client Scripts to make asynchronous calls to a client-callable Script Include.<br><br><pre><code>var ga = new GlideAjax('ScriptIncludeName');\nga.addParam('sysparm_name', 'functionName');\nga.addParam('sysparm_myParam', 'value');\nga.getXMLAnswer(function(response) { console.log(response); });</code></pre>" }
+                ]
+            },
+            {
+                topic: "3. Server-Side Scripting",
+                questions: [
+                    { q: "Difference between After and Async Business Rule?", a: "<b>After</b> runs synchronously immediately after DB update, making the user wait. <b>Async</b> runs in the background via the scheduler queue, returning UI control instantly (used for heavy tasks/integrations)." },
+                    { q: "How to prevent a Business Rule from re-triggering?", a: "Use <code>current.setWorkflow(false);</code> before an update to prevent other BRs and notifications from running, avoiding infinite loops." },
+                    { q: "Types of Business Rules?", a: "Before, After, Async, and Display." },
+                    { q: "How to check active records in huge Incident table?", a: "Do not use GlideRecord getRowCount(). Use <b>GlideAggregate</b>:<br><br><pre><code>var count = new GlideAggregate('incident');\ncount.addQuery('active', true);\ncount.addAggregate('COUNT');\ncount.query();</code></pre>" },
+                    { q: "Fix Script vs Background Script", a: "Background Scripts are ad-hoc, run immediately, and are NOT captured in Update Sets. Fix Scripts are designed to be captured in Update Sets and migrated across environments." },
+                    { q: "Bulk update without triggering notifications and BRs?", a: "Run a Fix Script using <code>gr.setWorkflow(false);</code> to disable BRs/notifications, and <code>gr.autoSysFields(false);</code> to prevent changing audit timestamps." }
+                ]
+            },
+            {
+                topic: "4. Integrations & API",
+                questions: [
+                    { q: "What type of integrations have you worked on?", a: "Both Inbound (Scripted REST APIs) and Outbound (REST Messages, IntegrationHub) connecting with Jira, Workday, and Active Directory." },
+                    { q: "Main difference between Basic Authentication and OAuth?", a: "Basic Auth sends username/password directly. OAuth uses temporary, scoped Access Tokens, which is much more secure as credentials aren't shared and tokens can be revoked." },
+                    { q: "Steps for Jira integration / Updating an Incident via REST?", a: "1. Setup Jira API Token / OAuth Profile.<br>2. Create Outbound REST Message (HTTP POST/PUT).<br>3. Create an Async Business Rule triggered on Incident update.<br>4. Call a Script Include that uses sn_ws.RESTMessageV2, passes variables (current.number), and executes the call." },
+                    { q: "Client needs one Knowledge Base API returning both details and attachments. How?", a: "Create a Custom Scripted REST API. Query kb_knowledge for details, then query sys_attachment for the related file. Use GlideSysAttachment().getContentBase64() to get the file, combine both into one JSON, and return." }
+                ]
+            },
+            {
+                topic: "5. ITSM (Incident, Problem, Change)",
+                questions: [
+                    { q: "Difference between Incident and Problem?", a: "<b>Incident</b> is an unplanned disruption; the goal is to restore service instantly. <b>Problem</b> is the underlying root cause of one or more incidents; the goal is to find a permanent fix." },
+                    { q: "What is a Major Incident and who can create it?", a: "High impact/urgency incident causing major disruption. OOB, users with the major_incident_manager role can promote or create them." },
+                    { q: "Parent-Child Incident — explain.", a: "Multiple incidents caused by the same issue are linked to a Parent. Updating/resolving the Parent automatically cascades those updates down to all Child incidents." },
+                    { q: "Priority field wrong → recalculate based on Impact & Urgency?", a: "Run a Fix Script that updates the records using <code>gr.setForceUpdate(true);</code>. This forces the Data Lookup rules to re-evaluate and set the correct priority." }
+                ]
+            },
+            {
+                topic: "6. Catalog & Flow Designer",
+                questions: [
+                    { q: "Difference between Catalog Item, Record Producer, and Order Guide?", a: "<b>Catalog Item</b> creates a REQ/RITM/SCTASK hierarchy.<br><b>Record Producer</b> directly creates a task record (like an Incident) without the REQ structure.<br><b>Order Guide</b> groups multiple catalog items into one form." },
+                    { q: "What is Flow Designer and its trigger types?", a: "A natural language automation tool. Triggers include Record-based (Created/Updated), Date/Time-based (Daily/Weekly), and Application-based (Service Catalog, Inbound Email)." },
+                    { q: "Catalog Item: Block HR users from 'requested_for' variable?", a: "Use an <b>Advanced Reference Qualifier</b> on the requested_for variable. Set the Reference Qual script to exclude the HR department." }
+                ]
+            },
+            {
+                topic: "7. CSM, CMDB & Other Modules",
+                questions: [
+                    { q: "What is CSM? Core tables in CSM?", a: "Customer Service Management helps manage external customer support. Core tables: Case, Consumer, Account, Contact, Product, Asset, Entitlement, Contract." },
+                    { q: "How SLA gets attached in CSM Case?", a: "Via SLA Definitions on the Case table. The SLA engine evaluates start/pause/stop conditions. Entitlements and Contracts also influence which SLA is applied." },
+                    { q: "CMDB exposure (IRE, Classes, Connectors)?", a: "Involved in creating CI Classes, configuring the CI Class Manager, building Identification and Reconciliation engine (IRE) rules to prevent duplicates, and mapping data via Service Graph Connectors." }
+                ]
+            },
+            {
+                topic: "8. Transform Maps",
+                questions: [
+                    { q: "Concept of Transform Map scripts — onStart, onBefore, etc.", a: "<b>onStart:</b> runs once before import starts.<br><b>onBefore:</b> runs before a specific row is inserted - used for row validation.<br><b>onAfter:</b> runs after row insertion.<br><b>onComplete:</b> runs once at the end." },
+                    { q: "I have one Excel with 10 records. How many times will scripts run?", a: "onStart: 1 time.<br>onBefore: 10 times.<br>onAfter: 10 times.<br>onComplete: 1 time." }
+                ]
+            }
+        ];
+
+        const navContainer = document.getElementById('nav-container');
+        const contentContainer = document.getElementById('content-container');
+
+        data.forEach((group, gIndex) => {
+            const groupDiv = document.createElement('div');
+            groupDiv.className = 'topic-group';
+            
+            const title = document.createElement('div');
+            title.className = 'topic-title';
+            title.textContent = group.topic;
+            groupDiv.appendChild(title);
+
+            group.questions.forEach((item, qIndex) => {
+                const link = document.createElement('a');
+                link.className = 'q-link';
+                link.textContent = item.q;
+                link.onclick = (e) => {
+                    document.querySelectorAll('.q-link').forEach(el => el.classList.remove('active'));
+                    e.target.classList.add('active');
+                    showContent(item.q, item.a);
+                };
+                groupDiv.appendChild(link);
+            });
+
+            navContainer.appendChild(groupDiv);
+        });
+
+        function showContent(q, a) {
+            contentContainer.innerHTML = `
+                <div class="question-display">${q}</div>
+                <div class="answer-display">
+                    ${a}
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

@@ -5,6 +5,7 @@ This template defines the standard format that all interview questions and answe
 **Important Rules:** 
 1. When adding new questions to a file, you MUST also provide and format the corresponding technical answers in the "Answers Block" section. Do not leave the answers blank.
 2. Whenever a new interview file is added, you MUST update `README.md` to include a link to the new file in the table, keeping the rows sorted chronologically by Date.
+3. Whenever a new interview `.md` file is added, you MUST also parse its questions and answers and update the `index.html` Interactive Study Guide to include them in the appropriate Topic category.
 
 ---
 
